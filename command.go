@@ -8,8 +8,9 @@ import (
 
 func rootCommand() *cobra.Command {
 	return &cobra.Command{
-		Use:   "text-template-cli TEMPLATE_FILE [INPUT_FILE...]",
-		Short: "A simple CLI tool to render text templates",
+		Version: Version,
+		Use:     "text-template-cli TEMPLATE_FILE [INPUT_FILE...]",
+		Short:   "A simple CLI tool to render text templates",
 		Long: `A simple CLI tool to render text templates.
 This application is a tool to render text templates using Go's text/template package.
 See https://pkg.go.dev/text/template for more information about template file.

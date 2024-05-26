@@ -12,7 +12,7 @@ go install github.com/akm/text-template-cli@latest
 ### Usage
 
 ```
-$ text-template-cli --help 
+$ text-template-cli --help
 A simple CLI tool to render text templates.
 This application is a tool to render text templates using Go's text/template package.
 See https://pkg.go.dev/text/template for more information about template file.
@@ -23,8 +23,20 @@ Usage:
   text-template-cli TEMPLATE_FILE [INPUT_FILE...] [flags]
 
 Flags:
-  -h, --help   help for text-template-cli
+  -h, --help      help for text-template-cli
+  -v, --version   version for text-template-cli
 ```
+
+## Execute functions
+
+name | Executeion | Output
+----|-------------|----------
+stdout | Execute given command | stdout
+stderr | Execute given command | stderr
+combinedout | Execute given command | stdout and stderr
+shell | Execute `sh` with `-c` and given command | stdout
+
+See [examples/README.md.tmpl](examples/README.md.tmpl).
 
 ## Examples
 
