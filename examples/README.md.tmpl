@@ -1,0 +1,64 @@
+# Usages
+
+## Without input object
+
+```
+$ text-template-cli example1.txt.tmpl
+{{ stdout "text-template-cli" "example1.txt.tmpl" -}}
+```
+
+An environment variable `USER` is used to render.
+
+## Use redirection to output to a file
+
+```
+$ text-template-cli example1.txt.tmpl dummy.env >output.txt
+{{ shell "text-template-cli example1.txt.tmpl dummy.env >output.txt" -}}
+```
+
+```
+$ cat output.txt
+{{ stdout "cat" "output.txt" -}}
+```
+
+## .env file
+
+```
+$ text-template-cli example1.txt.tmpl dummy.env
+{{ stdout "text-template-cli" "example1.txt.tmpl" "dummy.env" -}}
+```
+
+## JSON file
+
+```
+$ text-template-cli example1.txt.tmpl dummy.json
+{{ stdout "text-template-cli" "example1.txt.tmpl" "dummy.json" -}}
+```
+
+## YAML file
+
+```
+$ text-template-cli example1.txt.tmpl dummy.yaml
+{{ stdout "text-template-cli" "example1.txt.tmpl" "dummy.yaml" -}}
+```
+
+## Multiple input files
+
+```
+$ text-template-cli example1.txt.tmpl dummy.env dummy.json
+{{ combinedout "text-template-cli" "example1.txt.tmpl" "dummy.env" "dummy.json" -}}
+```
+
+```
+$ text-template-cli example1.txt.tmpl dummy.env dummy.json dummy.yaml
+{{ combinedout "text-template-cli" "example1.txt.tmpl" "dummy.env" "dummy.json" "dummy.yaml" -}}
+```
+
+## Suppress warning messages
+
+Use redirection for stderr to /dev/null or somewhere.
+
+```
+$ text-template-cli example1.txt.tmpl dummy.env dummy.json dummy.yaml 2>/dev/null
+{{ stdout "text-template-cli" "example1.txt.tmpl" "dummy.env" "dummy.json" "dummy.yaml" -}}
+```
