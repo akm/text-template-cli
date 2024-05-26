@@ -39,9 +39,9 @@ func getEnvs() map[string]string {
 func loadFile(dest InputMap, fpath string) error {
 	switch filepath.Ext(fpath) {
 	case ".json":
-		return loadJSONFile(dest, fpath)
+		return readAndUnmarshal(json.Unmarshal, dest, fpath)
 	case ".yaml", ".yml":
-		return loadYamlFile(dest, fpath)
+		return readAndUnmarshal(yaml.Unmarshal, dest, fpath)
 	case ".env":
 		return loadEnvFile(dest, fpath)
 	default:
@@ -49,7 +49,7 @@ func loadFile(dest InputMap, fpath string) error {
 	}
 }
 
-func loadJSONFile(dest InputMap, fpath string) error {
+func readAndUnmarshal(unmarshalFunc func([]byte, interface{}) error, dest InputMap, fpath string) error {
 	f, err := os.Open(fpath)
 	if err != nil {
 		return err
@@ -62,35 +62,7 @@ func loadJSONFile(dest InputMap, fpath string) error {
 	}
 
 	var data InputMap
-	if err := json.Unmarshal(b, &data); err != nil {
-		return err
-	}
-
-	for k, v := range data {
-		oldVal, ok := dest[k]
-		if ok {
-			fmt.Fprintf(os.Stderr, "Overwriting %s: %s -> %s by %s\n", k, oldVal, v, fpath)
-		}
-		dest[k] = v
-	}
-
-	return nil
-}
-
-func loadYamlFile(dest InputMap, fpath string) error {
-	f, err := os.Open(fpath)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
-
-	b, err := io.ReadAll(f)
-	if err != nil {
-		return err
-	}
-
-	var data InputMap
-	if err := yaml.Unmarshal(b, &data); err != nil {
+	if err := unmarshalFunc(b, &data); err != nil {
 		return err
 	}
 
