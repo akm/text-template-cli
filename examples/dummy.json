@@ -1,0 +1,4 @@
+{
+  "FOO": "foo_from_json",
+  "BAZ": ["baz1", "baz2"]
+}

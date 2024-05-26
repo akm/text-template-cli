@@ -1,0 +1,6 @@
+FOO: {{ .FOO }}
+BAR: {{ .BAR }}
+BAZ:
+{{- range .BAZ }}
+  - {{ . }}
+{{- end }}
