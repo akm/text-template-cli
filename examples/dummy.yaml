@@ -1,0 +1,5 @@
+FOO: foo_from_yaml
+QUX:
+  FOO:
+  - baz1
+  - baz2

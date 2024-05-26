@@ -4,3 +4,8 @@ BAZ:
 {{- range .BAZ }}
   - {{ . }}
 {{- end }}
+{{- if .QUX }}
+{{-   if .QUX.FOO }}
+QUX.FOO: {{ .QUX.FOO }}
+{{-   end }}
+{{- end }}
