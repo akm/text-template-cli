@@ -14,7 +14,7 @@ func rootCommand() *cobra.Command {
 This application is a tool to render text templates using Go's text/template package.
 See https://pkg.go.dev/text/template for more information about template file.
 
-You can use this application without any INPUT_FILE, but you can also pass JSON files and/or .env files as INPUT FILE to render the template.`,
+You can use this application without any INPUT_FILE, but you can also pass JSON, YAML and/or .env files as INPUT FILE to render the template.`,
 		Args: func(_ *cobra.Command, args []string) error {
 			if len(args) < 1 {
 				return fmt.Errorf("TEMPLATE_FILE is required")

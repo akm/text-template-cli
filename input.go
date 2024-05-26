@@ -8,6 +8,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"gopkg.in/yaml.v3"
 )
 
 type InputMap map[string]interface{}
@@ -38,6 +40,8 @@ func loadFile(dest InputMap, fpath string) error {
 	switch filepath.Ext(fpath) {
 	case ".json":
 		return loadJSONFile(dest, fpath)
+	case ".yaml", ".yml":
+		return loadYamlFile(dest, fpath)
 	case ".env":
 		return loadEnvFile(dest, fpath)
 	default:
@@ -59,6 +63,34 @@ func loadJSONFile(dest InputMap, fpath string) error {
 
 	var data InputMap
 	if err := json.Unmarshal(b, &data); err != nil {
+		return err
+	}
+
+	for k, v := range data {
+		oldVal, ok := dest[k]
+		if ok {
+			fmt.Fprintf(os.Stderr, "Overwriting %s: %s -> %s by %s\n", k, oldVal, v, fpath)
+		}
+		dest[k] = v
+	}
+
+	return nil
+}
+
+func loadYamlFile(dest InputMap, fpath string) error {
+	f, err := os.Open(fpath)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	b, err := io.ReadAll(f)
+	if err != nil {
+		return err
+	}
+
+	var data InputMap
+	if err := yaml.Unmarshal(b, &data); err != nil {
 		return err
 	}
 
