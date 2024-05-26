@@ -27,6 +27,17 @@ Flags:
   -v, --version   version for text-template-cli
 ```
 
+## Execute functions
+
+name | Executeion | Output
+----|-------------|----------
+stdout | Execute given command | stdout
+stderr | Execute given command | stderr
+combinedout | Execute given command | stdout and stderr
+shell | Execute `sh` with `-c` and given command | stdout
+
+See [examples/README.md.tmpl](examples/README.md.tmpl).
+
 ## Examples
 
 See [examples](./examples/) for more details.
