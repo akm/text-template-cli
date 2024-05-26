@@ -11,7 +11,7 @@ func renderTemplate(templateFile string, input InputMap) error {
 		panic(err)
 	}
 
-	tmpl, err := template.New("template").Parse(string(templateData))
+	tmpl, err := template.New("template").Funcs(execFuncs()).Parse(string(templateData))
 	if err != nil {
 		panic(err)
 	}
