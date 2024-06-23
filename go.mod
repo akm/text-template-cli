@@ -1,4 +1,4 @@
-module text-template-cli
+module github.com/akm/text-template-cli
 
 go 1.22.3
 
