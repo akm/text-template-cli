@@ -62,3 +62,17 @@ Use redirection for stderr to /dev/null or somewhere.
 $ text-template-cli example1.txt.tmpl dummy.env dummy.json dummy.yaml 2>/dev/null
 {{ stdout "text-template-cli" "example1.txt.tmpl" "dummy.env" "dummy.json" "dummy.yaml" -}}
 ```
+
+## Sprig functions
+
+Use functions `default`, `contains`, `lower` and `ternary` from [sprig](https://masterminds.github.io/sprig/).
+
+```
+$ text-template-cli sprig.tmpl dummy.env
+{{ stdout "text-template-cli" "sprig.tmpl" "dummy.env" -}}
+```
+
+```
+$ text-template-cli sprig.tmpl dummy.json
+{{ stdout "text-template-cli" "sprig.tmpl" "dummy.json" -}}
+```

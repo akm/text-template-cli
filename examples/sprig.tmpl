@@ -1,0 +1,4 @@
+{{- $foo := default "FOO" .FOO -}}
+{{- $fooFromEnv := (contains "env" (lower $foo)) | ternary "from ENV" "not from ENV" -}}
+FOO: {{ $foo}}
+FOO is {{ $fooFromEnv}}
