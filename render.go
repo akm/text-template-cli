@@ -3,6 +3,8 @@ package main
 import (
 	"os"
 	"text/template"
+
+	"github.com/Masterminds/sprig/v3"
 )
 
 func renderTemplate(templateFile string, input InputMap) error {
@@ -11,7 +13,7 @@ func renderTemplate(templateFile string, input InputMap) error {
 		panic(err)
 	}
 
-	tmpl, err := template.New("template").Funcs(execFuncs()).Parse(string(templateData))
+	tmpl, err := template.New("template").Funcs(execFuncs()).Funcs(sprig.FuncMap()).Parse(string(templateData))
 	if err != nil {
 		panic(err)
 	}

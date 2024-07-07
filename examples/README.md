@@ -99,3 +99,19 @@ BAZ:
   - baz2
 QUX.FOO: [baz1 baz2]
 ```
+
+## Sprig functions
+
+Use functions `default`, `contains` and `ternary` from [sprig](https://masterminds.github.io/sprig/).
+
+```
+$ text-template-cli sprig.tmpl dummy.env
+FOO: foo_from_env
+FOO is from ENV
+```
+
+```
+$ text-template-cli sprig.tmpl dummy.json
+FOO: foo_from_json
+FOO is not from ENV
+```

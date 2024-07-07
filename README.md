@@ -8,7 +8,6 @@ CLI for [text/template](https://pkg.go.dev/text/template) of golang
 go install github.com/akm/text-template-cli@latest
 ```
 
-
 ### Usage
 
 ```
@@ -27,14 +26,19 @@ Flags:
   -v, --version   version for text-template-cli
 ```
 
-## Execute functions
+## Functions
 
-name | Executeion | Output
-----|-------------|----------
-stdout | Execute given command | stdout
-stderr | Execute given command | stderr
-combinedout | Execute given command | stdout and stderr
-shell | Execute `sh` with `-c` and given command | stdout
+- [Sprig](https://masterminds.github.io/sprig/) functions are available.
+- External command functions are available.
+
+### External command functions
+
+| name        | Executeion                               | Output            |
+| ----------- | ---------------------------------------- | ----------------- |
+| stdout      | Execute given command                    | stdout            |
+| stderr      | Execute given command                    | stderr            |
+| combinedout | Execute given command                    | stdout and stderr |
+| shell       | Execute `sh` with `-c` and given command | stdout            |
 
 See [examples/README.md.tmpl](examples/README.md.tmpl).
 
