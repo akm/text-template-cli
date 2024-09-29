@@ -84,6 +84,12 @@ func renderDirectory(srcDir, destDir string, templateExts []string, input InputM
 		}
 		destPath := filepath.Join(destDir, relPath)
 
+		// Write the rendered content to the destination directory
+		err = os.MkdirAll(filepath.Dir(destPath), 0o755)
+		if err != nil {
+			return err
+		}
+
 		if isTemplateFile(file, templateExts) {
 			// Parse and execute the template
 			tmpl, err := template.ParseFiles(file)
@@ -105,11 +111,6 @@ func renderDirectory(srcDir, destDir string, templateExts []string, input InputM
 				}
 			}
 
-			// Write the rendered content to the destination directory
-			err = os.MkdirAll(filepath.Dir(destPath), os.ModePerm)
-			if err != nil {
-				return err
-			}
 			f, err := os.Create(destPath)
 			if err != nil {
 				return err
