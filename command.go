@@ -2,10 +2,8 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -95,45 +93,4 @@ func processDirectory(srcDir, destDir string, templateExts []string, input Input
 	}
 
 	return nil
-}
-
-func renderOrCopy(srcFile, destPath string, templateExts []string, input InputMap) error {
-	isTemplate := false
-	for _, ext := range templateExts {
-		if strings.HasSuffix(destPath, ext) {
-			isTemplate = true
-			destPath = strings.TrimSuffix(destPath, ext)
-			break
-		}
-	}
-
-	// Write the rendered content to the destination directory
-	if err := os.MkdirAll(filepath.Dir(destPath), 0o755); err != nil {
-		return err
-	}
-
-	if isTemplate {
-		return renderToFile(srcFile, input, destPath)
-	} else {
-		// Copy non-template files directly
-		return copyFile(srcFile, destPath)
-	}
-}
-
-// copyFile copies a file from src to dst
-func copyFile(src, dst string) error {
-	sourceFile, err := os.Open(src)
-	if err != nil {
-		return err
-	}
-	defer sourceFile.Close()
-
-	destinationFile, err := os.Create(dst)
-	if err != nil {
-		return err
-	}
-	defer destinationFile.Close()
-
-	_, err = io.Copy(destinationFile, sourceFile)
-	return err
 }
