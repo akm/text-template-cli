@@ -1,13 +1,11 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 	"strings"
-	"text/template"
 
 	"github.com/spf13/cobra"
 )
@@ -91,18 +89,6 @@ func renderDirectory(srcDir, destDir string, templateExts []string, input InputM
 		}
 
 		if isTemplateFile(file, templateExts) {
-			// Parse and execute the template
-			tmpl, err := template.ParseFiles(file)
-			if err != nil {
-				return err
-			}
-
-			var renderedTemplate bytes.Buffer
-			err = tmpl.Execute(&renderedTemplate, input)
-			if err != nil {
-				return err
-			}
-
 			// Remove template extension from the destination file name
 			for _, ext := range templateExts {
 				if strings.HasSuffix(destPath, ext) {
@@ -111,13 +97,7 @@ func renderDirectory(srcDir, destDir string, templateExts []string, input InputM
 				}
 			}
 
-			f, err := os.Create(destPath)
-			if err != nil {
-				return err
-			}
-			defer f.Close()
-
-			if _, err = f.Write(renderedTemplate.Bytes()); err != nil {
+			if err := renderToFile(file, input, destPath); err != nil {
 				return err
 			}
 		} else {
