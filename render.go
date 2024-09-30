@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io"
 	"os"
 	"text/template"
 
@@ -8,6 +9,10 @@ import (
 )
 
 func renderTemplate(templateFile string, input InputMap) error {
+	return renderTemplateWithWriter(os.Stdout, templateFile, input)
+}
+
+func renderTemplateWithWriter(w io.Writer, templateFile string, input InputMap) error {
 	templateData, err := os.ReadFile(templateFile)
 	if err != nil {
 		panic(err)
@@ -18,7 +23,7 @@ func renderTemplate(templateFile string, input InputMap) error {
 		panic(err)
 	}
 
-	if err := tmpl.Execute(os.Stdout, input); err != nil {
+	if err := tmpl.Execute(w, input); err != nil {
 		panic(err)
 	}
 	return nil
