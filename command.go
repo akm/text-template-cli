@@ -15,7 +15,7 @@ func rootCommand() *cobra.Command {
 	var templateExts []string
 	r := &cobra.Command{
 		Version: Version,
-		Use:     "text-template-cli TEMPLATE_FILE [INPUT_FILE...]",
+		Use:     "text-template-cli SOURCE [INPUT_FILE...]",
 		Short:   "A simple CLI tool to render text templates",
 		Long: `A simple CLI tool to render text templates.
 This application is a tool to render text templates using Go's text/template package.
@@ -24,7 +24,7 @@ See https://pkg.go.dev/text/template for more information about template file.
 You can use this application without any INPUT_FILE, but you can also pass JSON, YAML and/or .env files as INPUT FILE to render the template.`,
 		Args: func(_ *cobra.Command, args []string) error {
 			if len(args) < 1 {
-				return fmt.Errorf("TEMPLATE_FILE is required")
+				return fmt.Errorf("SOURCE is required")
 			}
 			return nil
 		},
@@ -44,7 +44,7 @@ You can use this application without any INPUT_FILE, but you can also pass JSON,
 			}
 			if fileInfo.IsDir() {
 				if destDirectory == "" {
-					return fmt.Errorf("output-directory is required when TEMPLATE_FILE is a directory")
+					return fmt.Errorf("output-directory is required when SOURCE is a directory")
 				}
 				return processDirectory(args[0], destDirectory, templateExts, input)
 			} else if destDirectory != "" {
