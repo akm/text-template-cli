@@ -88,15 +88,16 @@ func renderDirectory(srcDir, destDir string, templateExts []string, input InputM
 			return err
 		}
 
-		if isTemplateFile(file, templateExts) {
-			// Remove template extension from the destination file name
-			for _, ext := range templateExts {
-				if strings.HasSuffix(destPath, ext) {
-					destPath = strings.TrimSuffix(destPath, ext)
-					break
-				}
+		isTemplate := false
+		for _, ext := range templateExts {
+			if strings.HasSuffix(destPath, ext) {
+				isTemplate = true
+				destPath = strings.TrimSuffix(destPath, ext)
+				break
 			}
+		}
 
+		if isTemplate {
 			if err := renderToFile(file, input, destPath); err != nil {
 				return err
 			}
@@ -110,16 +111,6 @@ func renderDirectory(srcDir, destDir string, templateExts []string, input InputM
 	}
 
 	return nil
-}
-
-// isTemplateFile checks if a file is a template file based on its extension
-func isTemplateFile(filename string, templateExts []string) bool {
-	for _, ext := range templateExts {
-		if strings.HasSuffix(filename, ext) {
-			return true
-		}
-	}
-	return false
 }
 
 // copyFile copies a file from src to dst
