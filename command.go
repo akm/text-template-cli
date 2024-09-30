@@ -46,7 +46,7 @@ You can use this application without any INPUT_FILE, but you can also pass JSON,
 				if destDirectory == "" {
 					return fmt.Errorf("output-directory is required when TEMPLATE_FILE is a directory")
 				}
-				return renderDirectory(args[0], destDirectory, templateExts, input)
+				return processDirectory(args[0], destDirectory, templateExts, input)
 			} else if destDirectory != "" {
 				return renderOrCopy(args[0], filepath.Join(destDirectory, filepath.Base(args[0])), templateExts, input)
 			} else {
@@ -59,7 +59,7 @@ You can use this application without any INPUT_FILE, but you can also pass JSON,
 	return r
 }
 
-func renderDirectory(srcDir, destDir string, templateExts []string, input InputMap) error {
+func processDirectory(srcDir, destDir string, templateExts []string, input InputMap) error {
 	var srcFiles []string
 
 	// Walk through the directory and collect file paths
