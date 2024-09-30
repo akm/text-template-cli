@@ -16,14 +16,21 @@ A simple CLI tool to render text templates.
 This application is a tool to render text templates using Go's text/template package.
 See https://pkg.go.dev/text/template for more information about template file.
 
+SOURCE must be a file or a directory.
+If SOURCE is a file, the rendered content will be written to the standard output, 
+or will be written a file in the output directory when --output-directory is given.
+If SOURCE is a directory, the rendered content will be written to the output directory.
+
 You can use this application without any INPUT_FILE, but you can also pass JSON, YAML and/or .env files as INPUT FILE to render the template.
 
 Usage:
-  text-template-cli TEMPLATE_FILE [INPUT_FILE...] [flags]
+  text-template-cli SOURCE [INPUT_FILE...] [flags]
 
 Flags:
-  -h, --help      help for text-template-cli
-  -v, --version   version for text-template-cli
+  -h, --help                      help for text-template-cli
+  -o, --output-directory string   Output directory
+  -e, --template-ext strings      Template file extensions (default [.tmpl])
+  -v, --version                   version for text-template-cli
 ```
 
 ## Functions
