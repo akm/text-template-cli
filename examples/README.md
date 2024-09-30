@@ -102,7 +102,7 @@ QUX.FOO: [baz1 baz2]
 
 ## Sprig functions
 
-Use functions `default`, `contains` and `ternary` from [sprig](https://masterminds.github.io/sprig/).
+Use functions `default`, `contains`, `lower` and `ternary` from [sprig](https://masterminds.github.io/sprig/).
 
 ```
 $ text-template-cli sprig.tmpl dummy.env
