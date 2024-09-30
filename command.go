@@ -82,34 +82,41 @@ func renderDirectory(srcDir, destDir string, templateExts []string, input InputM
 		}
 		destPath := filepath.Join(destDir, srcRelPath)
 
-		isTemplate := false
-		for _, ext := range templateExts {
-			if strings.HasSuffix(destPath, ext) {
-				isTemplate = true
-				destPath = strings.TrimSuffix(destPath, ext)
-				break
-			}
-		}
-
-		// Write the rendered content to the destination directory
-		err = os.MkdirAll(filepath.Dir(destPath), 0o755)
-		if err != nil {
+		if err := renderOrCopy(srcFile, destPath, templateExts, input); err != nil {
 			return err
-		}
-
-		if isTemplate {
-			if err := renderToFile(srcFile, input, destPath); err != nil {
-				return err
-			}
-		} else {
-			// Copy non-template files directly
-			err = copyFile(srcFile, destPath)
-			if err != nil {
-				return err
-			}
 		}
 	}
 
+	return nil
+}
+
+func renderOrCopy(srcFile, destPath string, templateExts []string, input InputMap) error {
+	isTemplate := false
+	for _, ext := range templateExts {
+		if strings.HasSuffix(destPath, ext) {
+			isTemplate = true
+			destPath = strings.TrimSuffix(destPath, ext)
+			break
+		}
+	}
+
+	// Write the rendered content to the destination directory
+	err := os.MkdirAll(filepath.Dir(destPath), 0o755)
+	if err != nil {
+		return err
+	}
+
+	if isTemplate {
+		if err := renderToFile(srcFile, input, destPath); err != nil {
+			return err
+		}
+	} else {
+		// Copy non-template files directly
+		err = copyFile(srcFile, destPath)
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
