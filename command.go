@@ -50,7 +50,7 @@ You can use this application without any INPUT_FILE, but you can also pass JSON,
 				}
 				return renderDirectory(args[0], destDirectory, templateExts, input)
 			} else {
-				return renderTemplate(args[0], input)
+				return renderToStdout(args[0], input)
 			}
 		},
 	}
