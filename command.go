@@ -58,7 +58,7 @@ You can use this application without any INPUT_FILE, but you can also pass JSON,
 }
 
 func renderDirectory(srcDir, destDir string, templateExts []string, input InputMap) error {
-	var files []string
+	var srcFiles []string
 
 	// Walk through the directory and collect file paths
 	err := filepath.Walk(srcDir, func(path string, info os.FileInfo, err error) error {
@@ -66,7 +66,7 @@ func renderDirectory(srcDir, destDir string, templateExts []string, input InputM
 			return err
 		}
 		if !info.IsDir() {
-			files = append(files, path)
+			srcFiles = append(srcFiles, path)
 		}
 		return nil
 	})
@@ -75,18 +75,12 @@ func renderDirectory(srcDir, destDir string, templateExts []string, input InputM
 	}
 
 	// Process each file
-	for _, file := range files {
-		relPath, err := filepath.Rel(srcDir, file)
+	for _, srcFile := range srcFiles {
+		srcRelPath, err := filepath.Rel(srcDir, srcFile)
 		if err != nil {
 			return err
 		}
-		destPath := filepath.Join(destDir, relPath)
-
-		// Write the rendered content to the destination directory
-		err = os.MkdirAll(filepath.Dir(destPath), 0o755)
-		if err != nil {
-			return err
-		}
+		destPath := filepath.Join(destDir, srcRelPath)
 
 		isTemplate := false
 		for _, ext := range templateExts {
@@ -97,13 +91,19 @@ func renderDirectory(srcDir, destDir string, templateExts []string, input InputM
 			}
 		}
 
+		// Write the rendered content to the destination directory
+		err = os.MkdirAll(filepath.Dir(destPath), 0o755)
+		if err != nil {
+			return err
+		}
+
 		if isTemplate {
-			if err := renderToFile(file, input, destPath); err != nil {
+			if err := renderToFile(srcFile, input, destPath); err != nil {
 				return err
 			}
 		} else {
 			// Copy non-template files directly
-			err = copyFile(file, destPath)
+			err = copyFile(srcFile, destPath)
 			if err != nil {
 				return err
 			}
