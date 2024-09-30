@@ -76,3 +76,27 @@ $ text-template-cli sprig.tmpl dummy.env
 $ text-template-cli sprig.tmpl dummy.json
 {{ stdout "text-template-cli" "sprig.tmpl" "dummy.json" -}}
 ```
+
+
+## Directory
+
+```
+$ TITLE=Example1 text-template-cli dir-example1/source --output-directory dir-example1/output
+```
+
+This command will render all files in the directory dir-example1/source and output to the directory dir-example1/output.
+
+
+## File with output directory
+
+```
+$ TITLE=Example2 text-template-cli dir-example1/source/dir1/README.md.tmpl --output-directory dir-example1/output
+```
+
+This command will render the file dir-example1/source/dir1/README.md.tmpl and output to the file dir-example1/output/README.md.
+
+```
+text-template-cli dir-example1/source/dir2/simple1.txt --output-directory dir-example1/output
+```
+
+This command will copy the file dir-example1/source/dir2/simple1.txt and output to the file dir-example1/output/simple1.txt.
